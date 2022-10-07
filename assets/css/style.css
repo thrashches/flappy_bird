@@ -1,0 +1,18 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.main-wrapper {
+    width: 75%;
+    height: 75vh;
+    background-color: rgb(96, 185, 195);
+}
