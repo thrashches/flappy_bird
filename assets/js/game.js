@@ -7,12 +7,22 @@ import PipePair from './pipe.js';
 
 const config = new Config();
 
-function randPositionX() {
-    return Math.random() * (800 - 300) + 300
-}
-
 function randTubeOffset() {
     return -(Math.random() * (400 - 100) + 100)
+}
+
+function getBestScore() {
+    const score = window.localStorage.getItem('score');
+    if (score) {
+        return parseInt(score);
+    }
+    else {
+        return 0;
+    }
+}
+
+function saveScore(score) {
+    window.localStorage.setItem('score', score);
 }
 
 
@@ -74,7 +84,8 @@ const firstPipe = new PipePair(
     context,
     sprite,
     config.topPipeSource,
-    config.bottomPipeSource
+    config.bottomPipeSource,
+
 );
 firstPipe.setY(randTubeOffset());
 firstPipe.setX(config.canvas.width);
@@ -87,15 +98,20 @@ let birdFrameIndex = 0;
 
 // let pipeLineX = config.canvas.width;
 
+let scores = 0;
+
+const scoresElement = document.getElementById('scores');
 
 const render = () => {
+    let birdDead = bird.isDead(config.canvas.height); // Жива ли птица
+
     index += 0.3;
-    birdFrameIndex = Math.round(birdFrameIndex) == 3 ? birdFrameIndex = 0 : birdFrameIndex += 0.3;
+    birdFrameIndex = Math.round(birdFrameIndex) == 3 ? birdFrameIndex = 0 : birdFrameIndex += 0.3;  // Кадр птицы
     const backgroundX = -((index * config.speed) % config.canvas.width);
     const bgOneX = backgroundX + config.canvas.width;
     const bgTwoX = backgroundX;
 
-    context.clearRect(0, 0, config.canvas.width, config.canvas.height);
+    context.clearRect(0, 0, config.canvas.width, config.canvas.height);  // Очистка холста, чтобы избежать артефактов
 
     backgroundSkyOne.draw(bgOneX);
 
@@ -108,30 +124,58 @@ const render = () => {
 
         if (pipePair.getX() == config.canvas.width - Math.round(config.canvas.width / 2)) {
             // Добавление новой трубы
+
+
             const newPipePair = new PipePair(
                 config.canvas.width,
                 config.canvas.height,
                 context,
                 sprite,
                 config.topPipeSource,
-                config.bottomPipeSource
+                config.bottomPipeSource,
+
             );
             newPipePair.setY(randTubeOffset());
             newPipePair.setX(config.canvas.width);
             pipeArray.push(newPipePair);
+        }
+        
+        if (bird.position.x + bird.width >= pipePair.getX() && bird.position.x <= pipePair.getX() + pipePair.topPipeSource.width) {
+            // Если птица проходит между труб
+            pipePair.passing = true;  // переключаем проход трубы
+            birdDead = bird.isDead(config.canvas.height, pipePair);
+            
+        } else {
+            if (pipePair.passing && pipePair.getX() + pipePair.topPipeSource.width <= bird.position.x) {
+                scores += 1;
+            }
+            pipePair.passing = false;
         }
         if (pipePair.getX() <= -config.topPipeSource.width) {
             // Удаление трубы, которая зашла за левый край
             pipeArray.splice(0, 1);
         }
     }
-
+    
     backgroundFloorOne.draw(bgOneX);
     backgroundFloorTwo.draw(bgTwoX);
+    bird.fallSpeed += 0.1;
+    bird.position.y += 1 * bird.fallSpeed;
+    bird.draw(Math.round(birdFrameIndex));
+    scoresElement.innerText = `Score: ${scores}`;
 
-    bird.draw(0, 0, Math.round(birdFrameIndex));
+    if (!birdDead) {
+        window.requestAnimationFrame(render);
+    }
+    else {
+        saveScore(scores);
+    }
 
-    window.requestAnimationFrame(render);
 }
 
 sprite.image.onload = render();
+document.addEventListener('keydown', (event) => {
+    if (event.code == 'Space') {
+        bird.jump();
+    }
+})

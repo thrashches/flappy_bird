@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&display=swap');
+
 body {
     margin: 0;
     padding: 0;
@@ -16,4 +18,10 @@ main {
     height: 75vh;
     background-color: rgb(96, 185, 195);
     overflow: hidden;
+}
+
+.scores {
+    position: absolute;
+    top: 15%;
+    font-family: 'Silkscreen', cursive;
 }

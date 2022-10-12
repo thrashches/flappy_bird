@@ -1,6 +1,7 @@
 import StaticObjectBase from "./static.js";
 
 class PipePair {
+    passing = false;
     topPipeSource = {};
     bottomPipeSource = {};
     topPipe = undefined;

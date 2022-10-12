@@ -39,6 +39,13 @@ class Config {
         height: 400,
     };
 
+    gameOverSource = {
+        x: 173,
+        y: 209,
+        width: 228,
+        height: 200,
+    }
+
     constructor () {
         // this.canvas.height = document.body.clientHeight;
         this.canvas.height = document.getElementById('wrapper').offsetHeight;
