@@ -1,8 +1,9 @@
 import StaticObjectBase from "./static.js";
 
+
 class Background  extends StaticObjectBase{
     
-    frameCount = 1;
+    frameCount = 1;  // Количество повторений фона
 
     constructor(canvasWidth, canvasHeight, context, sprite, source, verticalOffset) {
         super(canvasWidth, canvasHeight, context, sprite, source, verticalOffset);
@@ -10,14 +11,17 @@ class Background  extends StaticObjectBase{
     }
 
     draw(x) {
-        for (let i = x; i <= this.frameCount; i++) {
+
+        // Дублируем фон под ширину экрана
+        for (let i = 0; i <= this.frameCount; i++) {
+            
             this.context.drawImage(
                 this.sprite.image,  // Источник спрайта
                 this.source.x,  // Верхний левый угол картинки в источнике
                 this.source.y,  // --//--
                 this.source.width,  // Ширина картинки в источнике
                 this.source.height,  // Высота картинки в источнике
-                i * this.source.width, 
+                x + this.source.width * i,
                 this.canvasHeight - this.source.height - this.verticalOffset,
                 this.source.width,
                 this.source.height,

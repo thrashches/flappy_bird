@@ -1,4 +1,6 @@
 class StaticObjectBase {
+    // Класс статичного объекта для фона и труб
+
     source = {};
     canvasWidth = NaN;
     canvasHeight = NaN;

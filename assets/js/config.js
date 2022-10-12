@@ -1,5 +1,5 @@
 class Config {
-    speed = 0.03;
+    speed = 3;
 
     canvas = {
         id: 'gameArea',
@@ -42,7 +42,7 @@ class Config {
     constructor () {
         // this.canvas.height = document.body.clientHeight;
         this.canvas.height = document.getElementById('wrapper').offsetHeight;
-        this.canvas.width = document.getElementById('wrapper').offsetWidth;
+        this.canvas.width = (Math.round(document.getElementById('wrapper').offsetWidth / this.skySource.width) + 1) * this.skySource.width;
         const canvas = document.getElementById(this.canvas.id);
         canvas.setAttribute('height', this.canvas.height);
         canvas.setAttribute('width', this.canvas.width);

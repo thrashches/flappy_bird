@@ -15,4 +15,5 @@ main {
     width: 75%;
     height: 75vh;
     background-color: rgb(96, 185, 195);
+    overflow: hidden;
 }

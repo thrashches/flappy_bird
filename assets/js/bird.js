@@ -28,7 +28,7 @@ class Bird {
 
     constructor (canvasWidth, canvasHeight, context, sprite) {
         this.sprite = sprite;
-        this.position.x = Math.round(canvasWidth / 2);
+        this.position.x = Math.round(canvasWidth / 4);
         this.position.y = Math.round(canvasHeight / 2);
         this.context = context;
     }
