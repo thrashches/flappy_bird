@@ -25,3 +25,9 @@ main {
     top: 15%;
     font-family: 'Silkscreen', cursive;
 }
+
+.message {
+    position: absolute;
+    top: 55%;
+    font-family: 'Silkscreen', cursive;
+}

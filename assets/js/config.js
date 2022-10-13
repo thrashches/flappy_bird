@@ -40,10 +40,10 @@ class Config {
     };
 
     gameOverSource = {
-        x: 173,
-        y: 209,
+        x: 175,
+        y: 229,
         width: 228,
-        height: 200,
+        height: 43,
     }
 
     constructor () {

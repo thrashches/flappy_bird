@@ -4,6 +4,7 @@ import Background from './background.js';
 import Bird from './bird.js';
 // import Pipe from './pipe.js';
 import PipePair from './pipe.js';
+import GameOver from './gameOver.js';
 
 const config = new Config();
 
@@ -29,6 +30,8 @@ function saveScore(score) {
 const canvas = document.getElementById(config.canvas.id);
 const context = canvas.getContext('2d');
 const sprite = new Sprite('assets/img/sprite.png');
+
+const gameOver = new GameOver(sprite, config.gameOverSource, canvas, context);
 const backgroundSkyOne = new Background(
     // Небо кусок 1
     config.canvas.width,
@@ -76,7 +79,7 @@ const bird = new Bird(
     sprite
 )
 
-const pipeArray = [];
+const pipeArray = [];  // Массив всех труб
 
 const firstPipe = new PipePair(
     config.canvas.width,
@@ -85,7 +88,7 @@ const firstPipe = new PipePair(
     sprite,
     config.topPipeSource,
     config.bottomPipeSource,
-
+    // Первая труба
 );
 firstPipe.setY(randTubeOffset());
 firstPipe.setX(config.canvas.width);
@@ -168,7 +171,11 @@ const render = () => {
         window.requestAnimationFrame(render);
     }
     else {
-        saveScore(scores);
+        if (scores > getBestScore()) {
+            saveScore(scores);
+        }
+        document.getElementById('best').innerText = `Best: ${getBestScore()}`;
+        gameOver.draw();
     }
 
 }
